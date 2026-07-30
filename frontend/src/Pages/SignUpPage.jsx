@@ -10,6 +10,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import AuthImagePattern from "../components/AuthImagePattern"
 
 function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,10 +21,9 @@ function SignUpPage() {
   });
   const { signup, isSigningUp } = useAuthStore();
   const validateForm = () => {};
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
   };
 
   return (
@@ -31,7 +31,6 @@ function SignUpPage() {
       {/* left side */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
-
           {/* LOGO */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
@@ -148,8 +147,10 @@ function SignUpPage() {
       </div>
 
       {/* Right side */}
-
-
+      <AuthImagePattern
+        title="Join our community"
+        subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
+      />
     </div>
   );
 }
