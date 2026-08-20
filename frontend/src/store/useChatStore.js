@@ -27,16 +27,37 @@ export const useChatStore = create((set, get) => ({
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
+      console.log("userId being sent:", userId);
       const res = await axiosInstance.get(`/messages/${userId}`);
       set({ messages: res.data });
+      // console.log("Fetched messages:", res.data);
     } catch (error) {
       const message = error.response?.data?.message || error.message;
       console.error("Error in getMessages while fetching messages:", message);
+      toast.error(message);
     } finally {
       set({ isMessagesLoading: false });
     }
   },
-  // todo:optamise this one later
 
+  sendMessage: async (messageData) => {
+    const { selectedUser, messages } = get();
+    try {
+      // safety check to ensure selectedUser is defined before sending a message
+      if (!selectedUser?._id) return;
+      const res = await axiosInstance.post(
+        `messages/send/${selectedUser?._id}`,
+        messageData,
+      );
+      set({ messages: [...messages, res.data] });
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      console.error("Error in sendMessage ", message);
+      toast.error(message);
+    }
+    // console.log("sendMessage called with data:", messageData);
+  },
+
+  // todo:optamise this one later
   setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));
